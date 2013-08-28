@@ -22,9 +22,10 @@ from .digest import create_digester
 __all__ = ('create_connector', Connector, Order)
 
 
-def create_connector(secret):
+def create_connector(secret, timeout):
     '''Create a new `Connector` with the default configiruation'''
 
     return Connector(
         UserAgent(),
-        create_digester(secret))
+        create_digester(secret),
+        timeout=timeout)

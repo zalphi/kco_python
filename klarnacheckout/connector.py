@@ -42,7 +42,8 @@ class Connector(object):
     e.g updates location on HTTP 201
     '''
 
-    def __init__(self, useragent, digester, build=build_opener):
+    def __init__(self, useragent, digester, build=build_opener, timeout=None):
+        self.timeout = timeout
         self.opener = build(
             RedirectHandler(),
             AuthorizationHandler(digester),
@@ -84,7 +85,7 @@ class Connector(object):
             data = options.get('data') or resource.marshal()
             req.data = json.dumps(data).encode('utf-8')
 
-        return self.handle_response(resource, self.opener.open(req))
+        return self.handle_response(resource, self.opener.open(req, timeout=self.timeout))
 
 
 class AuthorizationHandler(BaseHandler):
